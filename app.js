@@ -1,5 +1,3 @@
-//express,bodyParser,createReadStream,crypto,http
-
 export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
     const ex= express()
     const headers={
@@ -11,7 +9,7 @@ export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
         res.end('poli8512')
     })
     ex.all('/code/',(req,res)=>{
-        createReadStream(import.meta.url.substring(8)).pipe(res)
+        createReadStream(import.meta.url.substring(7)).pipe(res)
         })
     ex.get('/sha1/:input', (req, res) => {
         const { input } = req.params;
