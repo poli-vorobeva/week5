@@ -10,6 +10,4 @@ import {createReadStream} from 'fs'
 
 const app = ex(express,bodyParser,createReadStream,crypto,http)
 
-app.listen(process.env.PORT,()=>{
-    console.log('ура')
-})
+app.listen(process.env.PORT|| 4321)
