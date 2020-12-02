@@ -6,7 +6,7 @@ export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
       'Access-Control-Allow-Headers':
         'x-test,Content-Type,Accept, Access-Control-Allow-Headers',
     };
-    app
+    ex
     .use((req, res, next) => {
       res.set(CORS);
       next();
@@ -24,7 +24,7 @@ export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
         shas.update(input);
         res.send(shas.digest('hex'));
     })
-    app.all('/req/', (req, res) => {
+    ex.all('/req/', (req, res) => {
         let url = req.method === 'POST' ? req.body.addr : req.query.addr;
         http.get(url, (response) => {
             let data = '';
@@ -34,7 +34,7 @@ export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
             });
         });
     })
-    app.all('*', (req, res) => {
+    ex.all('*', (req, res) => {
             res.send('poli8512');
         })
         .use((error, req, res, next) =>
