@@ -8,7 +8,7 @@ export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
     };
     ex
     .use((req, res, next) => {
-      res.set(CORS);
+      res.status(200).set(CORS);
       next();
     })
 
