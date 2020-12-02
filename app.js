@@ -1,9 +1,16 @@
 export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
     const ex= express()
-    const headers={
-        'Access-Control-Allow-Origin':'*',
-        'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,OPTIONS,DELETE'
-    }
+    const CORS = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
+      'Access-Control-Allow-Headers':
+        'x-test,Content-Type,Accept, Access-Control-Allow-Headers',
+    };
+    app
+    .use((req, res, next) => {
+      res.set(CORS);
+      next();
+    })
 
     ex.all('/login/', (req,res)=>{
         res.end('poli8512')
