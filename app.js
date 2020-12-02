@@ -12,7 +12,7 @@ export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
       next();
     })
 
-    ex.all('/login/', (req,res)=>{
+    ex.get('/login/', (req,res)=>{
         res.end('poli8512')
     })
     ex.all('/code/',(req,res)=>{
