@@ -10,4 +10,4 @@ import {createReadStream} from 'fs'
 
 const app = ex(express,bodyParser,createReadStream,crypto,http)
 
-app.listen(process.env.PORT)
+app.listen(process.env.PORT|| 4321)
