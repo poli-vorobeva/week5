@@ -8,39 +8,44 @@ export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
     };
     ex
     .use((req, res, next) => {
-      res.status(200).set(CORS);
+      res.set(CORS);
       next();
     })
-
-    .get('/login/', (req,res)=>{
-        res..status(200).set(CORS).end('poli8512')
-    })
-    .all('/code/',(req,res)=>{
-        createReadStream(import.meta.url.substring(7)).pipe(res)
-        })
+    .use(bodyParser.urlencoded({ extended: true }))
     .get('/sha1/:input', (req, res) => {
-        const { input } = req.params;
-        const shas = crypto.createHash('sha1');
-        shas.update(input);
-        res.send(shas.digest('hex'));
+      const { input } = req.params;
+      const shasum = crypto.createHash('sha1');
+      shasum.update(input);
+      res.send(shasum.digest('hex'));
     })
-    .all('/req/', (req, res) => {
+    .get('/login/', (req, res) => res.send('poli8512'))
+    .get('/code/', (req, res) => {
+      res.set({ 'Content-Type': 'text/plain; charset=utf-8' });
+      createReadStream(import.meta.url.substring(7)).pipe(res);
+    });
+    
+    ex.all('/req/', (req, res) => {
         let url = req.method === 'POST' ? req.body.addr : req.query.addr;
         http.get(url, (response) => {
-            let data = '';
-            response.on('data', (chunk) => (data += chunk));
-            response.on('end', () => {
-                res.end(data);
-            });
-        });
+          let data = '';
+          response.on('data', (chunk) => (data += chunk));
+              response.on('end', () => {
+                res
+                  .set({
+                    'Content-Type': 'text/plain; charset=utf-8',
+                  })
+                  .end(data);
+         });
     })
+
+  ex
     .all('*', (req, res) => {
-            res.status(200).set(CORS).send('poli8512');
-        })
-        .use((error, req, res, next) =>
-            res.status(500).send(`Error : ${error}`)
-        );
+      res.send('poli8512');
+    })
+    .use((error, req, res, next) =>
+      res.status(500).set(CORS).send(`Error : ${error}`)
+    );
 
-return ex
-
+  return ex;
+    
 }
