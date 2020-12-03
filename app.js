@@ -12,19 +12,19 @@ export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
       next();
     })
 
-    ex.get('/login/', (req,res)=>{
-        res.end('poli8512')
+    .get('/login/', (req,res)=>{
+        res..status(200).set(CORS).end('poli8512')
     })
-    ex.all('/code/',(req,res)=>{
+    .all('/code/',(req,res)=>{
         createReadStream(import.meta.url.substring(7)).pipe(res)
         })
-    ex.get('/sha1/:input', (req, res) => {
+    .get('/sha1/:input', (req, res) => {
         const { input } = req.params;
         const shas = crypto.createHash('sha1');
         shas.update(input);
         res.send(shas.digest('hex'));
     })
-    ex.all('/req/', (req, res) => {
+    .all('/req/', (req, res) => {
         let url = req.method === 'POST' ? req.body.addr : req.query.addr;
         http.get(url, (response) => {
             let data = '';
@@ -34,8 +34,8 @@ export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
             });
         });
     })
-    ex.all('*', (req, res) => {
-            res.send('poli8512');
+    .all('*', (req, res) => {
+            res.status(200).set(CORS).send('poli8512');
         })
         .use((error, req, res, next) =>
             res.status(500).send(`Error : ${error}`)
