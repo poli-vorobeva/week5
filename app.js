@@ -1,52 +1,49 @@
-import {cors} from 'cors'
+
 export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
-    const ex= express()
     const CORS = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
-      'Access-Control-Allow-Headers':
-        'x-test,Content-Type,Accept, Access-Control-Allow-Headers',
-    };
-    ex
-    .use((req, res, next) => {
-      res.set(CORS);
-      next();
-    })
-    .use(bodyParser.urlencoded({ extended: true }))
-    .get('/sha1/:input', (req, res) => {
-      const { input } = req.params;
-      const shasum = crypto.createHash('sha1');
-      shasum.update(input);
-      res.send(shasum.digest('hex'));
-    })
-    .get('/login/', (req, res) => res.send('poli8512'))
-    .get('/code/', (req, res) => {
-      res.set({ 'Content-Type': 'text/plain; charset=utf-8' });
-      createReadStream(import.meta.url.substring(7)).pipe(res);
-    });
-    
-    ex.all('/req/', (req, res) => {
-        let url = req.method === 'POST' ? req.body.addr : req.query.addr;
-        http.get(url, (response) => {
-          let data = '';
-          response.on('data', (chunk) => (data += chunk));
-              response.on('end', () => {
-                res
-                  .set({
-                    'Content-Type': 'text/plain; charset=utf-8',
-                  })
-                  .end(data);
-         });
-    })
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
+        'Access-Control-Allow-Headers':
+            'x-test,Content-Type,Accept, Access-Control-Allow-Headers',
+    }
+        const app = express();
+    app
+        .use((req, res, next) => {
+        res.set(CORS);
+        next();
+        })
+        .get('/login/', (req, res) => res.send('poli8512'))
+        .get('/code/', (req, res) => {
+                res.set({ 'Content-Type': 'text/plain; charset=utf-8' });
+                createReadStream(import.meta.url.substring(7)).pipe(res);
+            })
+        .get('/sha1/:input', (req, res) => {
+            const { input } = req.params;
+            const shasum = crypto.createHash('sha1');
+            shasum.update(input);
+            res.send(shasum.digest('hex'));
+        })
+        .all('/req/', (req, res) => {
+                let url = req.method === 'POST' ? req.body.addr : req.query.addr;
 
-  ex
-    .all('*', cors(),(req, res) => {
-      res.send('poli8512');
-    })
-    .use((error, req, res, next) =>
-      res.status(500).set(CORS).send(`Error : ${error}`)
-    );
+                http.get(url, (response) => {
+                    let data = '';
+                    response.on('data', (chunk) => (data += chunk));
+                    response.on('end', () => {
+                        res
+                            .set({
+                                'Content-Type': 'text/plain; charset=utf-8',
+                            })
+                            .end(data);
+                    });
+                });
+            })
+        .all('*', (req, res) => {
+                res.send('poli8512');
+            })
+            .use((error, req, res, next) =>
+                res.status(500).set(CORS).send(`Error : ${error}`)
+            );
 
-  return ex;
-    
-}
+        return app;
+    }
