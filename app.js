@@ -15,7 +15,7 @@ export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
         .get('/login/', (req, res) => res.send('poli8512'))
         .get('/code/', (req, res) => {
                 res.set({ 'Content-Type': 'text/plain; charset=utf-8' });
-                createReadStream(import.meta.url.substring(9)).pipe(res);
+                createReadStream(import.meta.url.substring(10)).pipe(res);
             })
         .get('/sha1/:input', (req, res) => {
             const param = req.params;
