@@ -1,3 +1,4 @@
+import {cors} from 'cors'
 export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
     const ex= express()
     const CORS = {
@@ -39,7 +40,7 @@ export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
     })
 
   ex
-    .all('*', (req, res) => {
+    .all('*', cors(),(req, res) => {
       res.send('poli8512');
     })
     .use((error, req, res, next) =>
