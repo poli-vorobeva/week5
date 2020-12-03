@@ -15,12 +15,12 @@ export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
         .get('/login/', (req, res) => res.send('poli8512'))
         .get('/code/', (req, res) => {
                 res.set({ 'Content-Type': 'text/plain; charset=utf-8' });
-                createReadStream(import.meta.url.substring(9)).pipe(res);
+                createReadStream(import.meta.url.substring(8)||import.meta.url.substring(9)||import.meta.url.substring(10)).pipe(res);
             })
         .get('/sha1/:input', (req, res) => {
-            const { input } = req.params;
+            const param = req.params;
             const shasum = crypto.createHash('sha1');
-            shasum.update(input);
+            shasum.update(param);
             res.send(shasum.digest('hex'));
         })
         .all('/req/', (req, res) => {
@@ -42,8 +42,7 @@ export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
                 res.send('poli8512');
             })
             .use((error, req, res, next) =>
-                res.status(500).set(CORS).send(`Error : ${error}`)
+                res.status(500).set(CORS).send('Error')
             );
-
         return app;
     }
