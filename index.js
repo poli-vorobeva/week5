@@ -5,7 +5,7 @@ import http from 'http'
 import {Server} from 'http'
 import fs from 'fs'
 import crypto from 'crypto'
-import ex from "./app.js";
+import {ex} from "./app.js";
 import {createReadStream} from 'fs'
 
 const app = ex(express,bodyParser,createReadStream,crypto,http)
