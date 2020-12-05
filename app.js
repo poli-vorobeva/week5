@@ -1,5 +1,5 @@
 
-export const ex=(express,bodyParser,createReadStream,crypto,http)=>{
+export default ex=(express,bodyParser,createReadStream,crypto,http)=>{
     const CORS = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
