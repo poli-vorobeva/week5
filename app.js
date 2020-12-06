@@ -17,11 +17,10 @@ export default (express,bodyParser,createReadStream,crypto,http)=>{
                 res.set({ 'Content-Type': 'text/plain; charset=utf-8' });
                 createReadStream(import.meta.url.substring(7)).pipe(res);
             })
-        .get('/sha1/:input', (req, res) => {
-            const param = req.params;
+        .get('/sha1/:input', r => {
             const shasum = crypto.createHash('sha1');
-            shasum.update(param);
-            res.send(shasum.digest('hex'));
+            shasum.update(r.params.input);
+            r.res.send(shasum.digest('hex'));
         })
         .all('/req/', (req, res) => {
                 let url = req.method === 'POST' ? req.body.addr : req.query.addr;
